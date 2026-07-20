@@ -1,0 +1,285 @@
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Document</title>
+         <style>
+            :root{
+               --bg-color:#000000;
+               --b-shadow:rgba(108, 98, 98, 0.4);
+               --color:black;
+               --w-bg:rgba(0,0,0,0.75);
+               --m-content:#222;
+               --para:#fff;
+               --p-con:#bbb;
+               --inp-bg:#888;
+               --m-con-shadow:rgba(255, 255, 255, 0.1);
+               --follow-btn:#0095f6;
+               --following-btn:#efeffe;
+            }
+         *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+         }
+         html,body{
+            min-height: 100vh;
+            width: 100%;
+            background-color: var(--bg-color);
+            font-family: Arial, Helvetica, sans-serif;
+         }
+         main{
+            height: 100%;
+            width: 100%;
+         }
+         .cards{
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 210px));
+            justify-content: center;
+            gap: 20px;
+         }
+         .card{
+            position: relative;
+            width: 210px;
+            height: 310px;
+            overflow: hidden;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px var(--b-shadow);
+               margin: 8px 0px;
+               cursor: pointer;
+               transition: transform 0.3s ease,
+                           box-shadow 0.3s ease;
+               }
+               .card:hover{
+                  transform: translateY(-5px) scale(1.02);
+               }
+         .card::-webkit-scrollbar{
+            display: none;
+         }
+         .bg-image{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+         }
+         .bg-image:hover{
+            transform: scale(1.02);
+         }
+         .blurred-layer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50%;
+            background-size: cover;
+            background-position: bottom;
+            filter: blur(12px);
+            z-index: 1;
+            mask-image: linear-gradient(to top, var(--color), transparent);
+            mask-size: 100% 100%;
+            mask-repeat: no-repeat;
+            -webkit-mask-image: linear-gradient(
+                  to top,
+                  var(--color),
+                  transparent
+            );
+            -webkit-mask-size: 100% 100%;
+            -webkit-mask-repeat: no-repeat;
+         }
+         .content{
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: var(--para);
+            z-index: 2;
+         }
+         .content h3{
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 6px;
+         }
+         .content p{
+            font-size: 14px;
+            color: var(--p-con);
+            line-height: 1.4;
+         }
+         .inp-box{
+            width: min(900px, 90%);
+            margin-top: 20px;
+            position: relative;
+         }
+         .inp{
+            width: 100%;
+            font-size: clamp(1rem, 1.8rem, 1.6rem);
+            outline: none;
+            background-color: var(--p-con);
+            padding: 12px 48px;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px #565454,
+                        0 0 2px var(--p-con);
+         }
+         .inp::placeholder{
+            text-align: left;
+            color: var(--color);
+         }
+         .inp:hover{
+            cursor: pointer;
+            border: 2px solid var(--color);
+         }
+         .inp-box i{
+            position: absolute;
+            color: var(--color);
+            font-size: clamp(1rem, 1.8rem, 1.6rem);
+            top: 50%;
+            transform: translateY(-50%);
+            right: 20px;
+            pointer-events: none;
+            z-index: 5;
+         }
+         .profile{
+            width: 50px;
+            
+         }
+         .para{
+            color: var(--para);
+            text-align: center;
+            font-size: clamp(1rem, 1.8rem, 1.6rem);
+         }
+         .follow-Btn{
+            background-color: var(--follow-btn);
+            padding: 5px 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+         }
+         .Following{
+            background-color: var(--following-btn);
+            color: var(--color);
+            padding: 5px 10px;
+            margin-top: 15px;
+            border-radius: 4px;
+         }
+         .modal-wrapper{
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--w-bg);
+            z-index: 99;
+         }
+         .modal-content{
+         background-color: var(--m-content);
+         color: var(--para);
+         padding: 24px;
+         width: 90%;
+         max-width: 350px;
+         text-align: center;
+         position: relative;
+         box-shadow: 0 10px 30px var(--m-con-shadow);
+         }
+         .close-btn{
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            color: var(--inp-bg);
+            cursor: pointer;
+            line-height: 1;
+         }
+         .close-btn:hover{
+            color: var(--para);
+         }
+         #modalImg{
+            height: 120px;
+            width: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+         }
+         #modalImg img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+         .skeleton-card{
+            width: 210px;
+            height: 310px;
+            border-radius: 25px;
+            position: relative;   
+            background-color: var(--m-content);   
+            margin: 8px 0px;
+            overflow: hidden;  
+         }
+         .skeleton-card::after{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transform: translateX(-100%); 
+            animation: loading 1.5s infinite;
+         }
+         @keyframes loading {
+            100%{
+               transform: translateX(100%);
+            }
+         }
+         @media(max-width:468px){
+            main{
+               padding: 10px;
+            }
+            .cards{
+               grid-template-columns: repeat(auto-fit, minmax(180px, 180px));
+               justify-content: center;
+            }
+            .card,
+            .skeleton-card{
+               width: 170px;
+               height: 270px;
+            }
+            .cards{
+               gap: 10px;
+            }
+            .inp-box{
+               margin: 20px;
+            }
+      }
+         </style>
+         <link
+   href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+   rel="stylesheet"
+   />
+      </head>
+      <body>
+         <main>
+         <div class="flex flex-col gap-10 items-center">
+            <div class="nav-bar">
+            <div class="inp-box">
+               <input class="inp" placeholder="search...">
+               <i class="ri-camera-4-line"></i>
+            </div>
+            <div class="profile"></div>
+            </div>
+            <div class="cards">
+               <!-- card -->
+            </div>
+         </div>
+            <div id="profileModal" class="modal-wrapper">
+            <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img id="modalImg" src="">
+            <h2 id="modalName"></h2>
+            <p id="modalBio"></p>
+         </div>
+         </div>
+         </main>
+         <script src="https://cdn.tailwindcss.com"></script>
+         <script src = "script.js"></script>
+      </body>
+      </html>
